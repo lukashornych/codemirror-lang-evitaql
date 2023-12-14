@@ -84,12 +84,8 @@ function createCompletion(label: string, info?: string): Completion {
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
     const parentNode = nodeBefore.parent
-    console.log(nodeBefore)
-    if (parentNode == null) {
-        return null
-    }
 
-    if (parentNode.name === 'Request') {
+    if (nodeBefore.name === 'Request' || parentNode?.name === 'Request') {
         return {
             from: nodeBefore.from,
             options: [
@@ -97,19 +93,19 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
             ]
         }
     }
-    if (parentNode.name === 'Query') {
+    if (nodeBefore.name === 'Query' || parentNode?.name === 'Query') {
         return {
             from: nodeBefore.from,
             options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
         }
     }
-    if (parentNode.name === 'HeadConstraint') {
+    if (nodeBefore.name === 'HeadConstraint' || parentNode?.name === 'HeadConstraint') {
         return {
             from: nodeBefore.from,
             options: []
         }
     }
-    if (parentNode.name === 'FilterConstraint') {
+    if (nodeBefore.name === 'FilterConstraint' || parentNode?.name === 'FilterConstraint') {
         return {
             from: nodeBefore.from,
             options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))

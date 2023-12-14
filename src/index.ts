@@ -102,7 +102,13 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
                     label: 'query',
                     type: 'function',
                     detail: '`query` is the root construct for querying data.',
-                    apply: 'query('
+                    apply: (view, completion, from, to) => {
+                        const query = `query()`
+                        view.dispatch({
+                            changes: { from, to, insert: query },
+                            selection: { anchor: from + query.length - 1 }
+                        })
+                    }
                 }
             ]
         }

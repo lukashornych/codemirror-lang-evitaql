@@ -124,29 +124,25 @@ function getRequestCompletions(context: CompletionContext, node: SyntaxNode, tag
         from: tagBefore ? node.from + tagBefore.index : node.from,
         options: [
             createCompletion('query', '`query` is the root construct for querying data.')
-        ],
-        validFor: /^(\w+\()?$/
+        ]
     }
 }
 function getQueryCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : node.from,
-        options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it)),
-        validFor: /^(\w+\()?$/
+        options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
     }
 }
 function getHeadConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : node.from,
-        options: [],
-        validFor: /^(\w+\()?$/
+        options: []
     }
 }
 function getFilterConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : node.from,
-        options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it)),
-        validFor: /^(\w+\()?$/
+        options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))
     }
 }
 

@@ -226,5 +226,5 @@ export const evitaQLLinter = linter(view => {
 })
 
 export function evitaQL() {
-  return new LanguageSupport(evitaQLLanguage, [evitaQLCompletion])
+  return new LanguageSupport(evitaQLLanguage, [evitaQLCompletion, evitaQLLinter])
 }

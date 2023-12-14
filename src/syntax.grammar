@@ -1,4 +1,4 @@
-@top Query { "query(" constraint ("," constraint)* ")" }
+@top Query { "query" argsOpening constraint (argsDelimiter constraint)* argsClosing }
 
 @skip { space | Comment }
 
@@ -8,13 +8,13 @@ constraint {
 }
 
 HeadConstraint {
-    collection { "collection(" classifierToken ")" }
+    collection { "collection" argsOpening classifierToken argsClosing }
 }
 
 FilterConstraint {
-    filterBy { "filterBy(" FilterConstraint ("," FilterConstraint)* ")" } |
-    and { "and(" FilterConstraint ("," FilterConstraint)* ")" } |
-    attributeEquals { "attributeEquals()" }
+    filterBy { "filterBy" argsOpening FilterConstraint (argsDelimiter FilterConstraint)* argsClosing } |
+    and { "and" argsOpening FilterConstraint (argsDelimiter FilterConstraint)* argsClosing } |
+    attributeEquals { "attributeEquals" argsOpening valueToken argsClosing }
 }
 
 classifierToken {
@@ -22,17 +22,70 @@ classifierToken {
 }
 
 valueToken {
-    String
+    String |
+    Int |
+    Float |
+    Boolean |
+    Date |
+    Time |
+    DateTime |
+    OffsetDateTime |
+    Range {
+        emptyRange { "[" "," "]" ~range } |
+        dateTimeRange { "[" OffsetDateTime? "," OffsetDateTime? "]" ~range } |
+        floatNumberRange { "[" Float? "," Float? "]" ~range } |
+        intNumberRange { "[" Int? "," Int? "]" ~range }
+    } |
+    Uuid |
+    Enum
 }
 
 @tokens {
-    String { '"' (!["\\] | "\\" _)* '"' }
+    String {
+        ('"' (!["\\] | "\\" _)* '"') |
+        ('\'' (!["\\] | "\\" _)* '\'')
+    }
+
+    Int { "-"? @digit+ }
+
+    Float { "-"? @digit+ "." @digit+ }
+
+    Boolean { "true" | "false" }
+
+    Date { @digit @digit @digit @digit "-" @digit @digit "-" @digit @digit }
+
+    Time { @digit @digit ":" @digit @digit ":" @digit @digit ("." @digit+)? }
+
+    DateTime { Date "T" Time }
+
+    OffsetDateTime { DateTime ("+" | "-") @digit @digit ":" @digit @digit }
+
+    Uuid { $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ }
+
+    Enum { @asciiUppercase+ ("_" @asciiUppercase+)* }
+
+    argsOpening { "(" }
+
+    argsClosing { ")" }
+
+    argsDelimiter { "," }
 
     Comment { "//" ![\n]* }
 
     space { $[ \t\n\r]+ }
 
-    "(" ")"
+    @precedence {
+        String,
+        OffsetDateTime,
+        DateTime,
+        Date,
+        Time,
+        Float,
+        Int,
+        Boolean,
+        Uuid,
+        Enum
+    }
 }
 
 @detectDelim

@@ -3,6 +3,19 @@ import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, d
 import { completeFromList, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import {styleTags, tags as t} from "@lezer/highlight"
 
+/*
+  todo
+  - pos/named parameters
+  - complex autocomplete
+  - syntax highlighting
+  - value types
+  - all constraints
+  - documentation
+  - tests
+  - inline constraints
+  - string escaping
+ */
+
 export const evitaQLLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
@@ -17,14 +30,23 @@ export const evitaQLLanguage = LRLanguage.define({
         FilterConstraint: foldInside,
       }),
       styleTags({
-        // Identifier: t.variableName,
-        // Boolean: t.bool,
         String: t.string,
+        Int: t.integer,
+        Float: t.float,
+        Boolean: t.bool,
+        Date: t.literal,
+        Time: t.literal,
+        DateTime: t.literal,
+        OffsetDateTime: t.literal,
+        Uuid: t.literal,
+        Enum: t.constant(t.variableName),
         Query: t.function(t.variableName),
         HeadConstraint: t.function(t.variableName),
         FilterConstraint: t.function(t.variableName),
         Comment: t.lineComment,
-        "( )": t.paren
+        ",": t.separator,
+        "( )": t.paren,
+        "[ ]": t.squareBracket,
       })
     ]
   }),
@@ -33,7 +55,8 @@ export const evitaQLLanguage = LRLanguage.define({
   }
 })
 
-function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
+// todo
+// function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
   // let word = context.matchBefore(/\(/)
   // if (word == null || (word.from == word.to && !context.explicit)) {
   //   return null
@@ -54,31 +77,131 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
   // }
 
 
-  const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-  const nodeName: string = nodeBefore.name
-
-  console.log(nodeBefore)
-  console.log(nodeName)
-  console.log(context.pos)
-
-  if (nodeName === "Query") {
-    const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-    const tagBefore = /query\($/.exec(textBefore)
-    if (!tagBefore && !context.explicit) return null
-    return {
-      from: tagBefore ? nodeBefore.from + tagBefore.index : context.pos,
-      options: [
-        { label: "filterBy", type: "function" }
-      ],
-      validFor: /^(query\()?$/
-    }
-  }
-
-  return null
-}
+  // const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  // const nodeName: string = nodeBefore.name
+  //
+  // console.log(nodeBefore)
+  // console.log(nodeName)
+  // console.log(context.pos)
+  //
+  // if (nodeName === "Query") {
+  //   const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+  //   const tagBefore = /query\($/.exec(textBefore)
+  //   if (!tagBefore && !context.explicit) return null
+  //   return {
+  //     from: tagBefore ? nodeBefore.from + tagBefore.index : context.pos,
+  //     options: [
+  //       { label: "filterBy", type: "function" }
+  //     ],
+  //     validFor: /^(query\()?$/
+  //   }
+  // }
+  //
+  // return null
+// }
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({
-  autocomplete: getEvitaQLCompletions
+  autocomplete: completeFromList([
+    "query",
+
+    "collection",
+
+    "filterBy",
+    "filterGroupBy",
+    "and",
+    "or",
+    "not",
+    "userFilter",
+    "attributeEquals",
+    "attributeGreaterThan",
+    "attributeGreaterThanEquals",
+    "attributeLessThan",
+    "attributeLessThanEquals",
+    "attributeBetween",
+    "attributeInSet",
+    "attributeContains",
+    "attributeStartsWith",
+    "attributeEndsWith",
+    "attributeEqualsTrue",
+    "attributeEqualsFalse",
+    "attributeIs",
+    "attributeIsNull",
+    "attributeIsNotNull",
+    "attributeInRange",
+    "attributeInRangeNow",
+    "entityPrimaryKeyInSet",
+    "entityLocaleEquals",
+    "priceInCurrency",
+    "priceInPriceLists",
+    "priceValidInNow",
+    "priceValidIn",
+    "priceBetween",
+    "facetHaving",
+    "referenceHaving",
+    "hierarchyWithin",
+    "hierarchyWithinSelf",
+    "hierarchyWithinRoot",
+    "hierarchyWithinRootSelf",
+    "directRelation",
+    "having",
+    "excludingRoot",
+    "excluding",
+    "entityHaving",
+
+    "orderBy",
+    "orderGroupBy",
+    "attributeNatural",
+    "attributeSetExact",
+    "attributeSetInFilter",
+    "priceNatural",
+    "random",
+    "referenceProperty",
+    "entityPrimaryKeyNatural",
+    "entityPrimaryKeyExact",
+    "entityPrimaryKeyInFilter",
+    "entityProperty",
+    "entityGroupProperty",
+
+    "require",
+    "page",
+    "strip",
+    "entityFetch",
+    "entityGroupFetch",
+    "attributeContent",
+    "attributeContentAll",
+    "priceContent",
+    "priceContentAll",
+    "priceContentRespectingFilter",
+    "associatedDataContent",
+    "associatedDataContentAll",
+    "referenceContentAll",
+    "referenceContent",
+    "referenceContentAllWithAttributes",
+    "referenceContentWithAttributes",
+    "hierarchyContent",
+    "priceType",
+    "dataInLocalesAll",
+    "dataInLocales",
+    "facetSummary",
+    "facetSummaryOfReference",
+    "facetGroupsConjunction",
+    "facetGroupsDisjunction",
+    "facetGroupsNegation",
+    "attributeHistogram",
+    "priceHistogram",
+    "distance",
+    "level",
+    "node",
+    "stopAt",
+    "statistics",
+    "fromRoot",
+    "children",
+    "siblings",
+    "parents",
+    "hierarchyOfSelf",
+    "hierarchyOfReference",
+    "queryTelemetry"
+  ].map(constraint => ({label: constraint, type: "function"})))
 })
 
 export function evitaQL() {

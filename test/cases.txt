@@ -4,7 +4,31 @@ query(
     collection("Product"),
     filterBy(
         and(
-            attributeEquals()
+            attributeEquals("name"),
+            attributeEquals('name'),
+            attributeEquals(10),
+            attributeEquals(-10),
+            attributeEquals(10.1),
+            attributeEquals(-10.1),
+            attributeEquals(true),
+            attributeEquals(false),
+            attributeEquals(2023-12-14),
+            attributeEquals(10:10:10),
+            attributeEquals(10:10:10.123),
+            attributeEquals(2023-12-14T10:10:10),
+            attributeEquals(2023-12-14T10:10:10.123),
+            attributeEquals(2023-12-14T10:10:10+01:00),
+            attributeEquals(2023-12-14T10:10:10.123+01:00),
+            attributeEquals(2023-12-14T10:10:10-01:00),
+            attributeEquals(2023-12-14T10:10:10.123-01:00),
+            attributeEquals([10.1,20.2]),
+            attributeEquals([-10.1,-20.2]),
+            attributeEquals([10,20]),
+            attributeEquals([-10,-20]),
+            attributeEquals([2023-12-14T10:10:10.123+01:00,2023-12-14T10:10:10.123+01:00]),
+            attributeEquals(a8e93931-9603-432f-b25e-732995a3d461),
+            attributeEquals(WITH_TAX),
+            attributeEquals(WITH)
         )
     )
 )
@@ -15,7 +39,31 @@ Query(
     HeadConstraint(String),
     FilterConstraint(
         FilterConstraint(
-            FilterConstraint
+            FilterConstraint(String),
+            FilterConstraint(String),
+            FilterConstraint(Int),
+            FilterConstraint(Int),
+            FilterConstraint(Float),
+            FilterConstraint(Float),
+            FilterConstraint(Boolean),
+            FilterConstraint(Boolean),
+            FilterConstraint(Date),
+            FilterConstraint(Time),
+            FilterConstraint(Time),
+            FilterConstraint(DateTime),
+            FilterConstraint(DateTime),
+            FilterConstraint(OffsetDateTime),
+            FilterConstraint(OffsetDateTime),
+            FilterConstraint(OffsetDateTime),
+            FilterConstraint(OffsetDateTime),
+            FilterConstraint(Range(Float,Float)),
+            FilterConstraint(Range(Float,Float)),
+            FilterConstraint(Range(Int,Int)),
+            FilterConstraint(Range(Int,Int)),
+            FilterConstraint(Range(OffsetDateTime,OffsetDateTime)),
+            FilterConstraint(Uuid),
+            FilterConstraint(Enum),
+            FilterConstraint(Enum)
         )
     )
 )

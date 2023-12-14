@@ -1,5 +1,5 @@
 import {parser} from "./syntax.grammar"
-import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
+import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent, syntaxTree} from "@codemirror/language"
 import { completeFromList, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import {styleTags, tags as t} from "@lezer/highlight"
 
@@ -34,24 +34,28 @@ export const evitaQLLanguage = LRLanguage.define({
 })
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
-  let word = context.matchBefore(/\(/)
-  if (word == null || (word.from == word.to && !context.explicit)) {
-    return null
-  }
-  console.log(word)
-  if (word.text === "filterBy") {
-    return {
-      from: word.from,
-      options:  [
-        { type: "function", label: "and" },
-        { type: "function", label: "attributeEquals" }
-      ]
-    }
-  }
-  return {
-    from: word.from,
-    options: []
-  }
+  // let word = context.matchBefore(/\(/)
+  // if (word == null || (word.from == word.to && !context.explicit)) {
+  //   return null
+  // }
+  // console.log(word)
+  // if (word.text === "filterBy") {
+  //   return {
+  //     from: word.from,
+  //     options:  [
+  //       { type: "function", label: "and" },
+  //       { type: "function", label: "attributeEquals" }
+  //     ]
+  //   }
+  // }
+  // return {
+  //   from: word.from,
+  //   options: []
+  // }
+
+  let nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  console.log(nodeBefore)
+  return null
 }
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({

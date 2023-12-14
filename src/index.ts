@@ -212,6 +212,7 @@ export const evitaQLLinter = linter(view => {
 
   syntaxTree(view.state).cursor().iterate(node => {
     if (node.type.isError) {
+      console.log(node)
       diagnostics.push({
         from: node.from,
         to: node.to,

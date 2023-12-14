@@ -7,10 +7,14 @@ export const evitaQLLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       indentNodeProp.add({
-        Query: delimitedIndent({closing: ")", align: true})
+        Query: delimitedIndent({closing: ")", align: true}),
+        HeadConstraint: delimitedIndent({closing: ")", align: true}),
+        FilterConstraint: delimitedIndent({closing: ")", align: true}),
       }),
       foldNodeProp.add({
-        Query: foldInside
+        Query: foldInside,
+        HeadConstraint: foldInside,
+        FilterConstraint: foldInside,
       }),
       styleTags({
         // Identifier: t.variableName,

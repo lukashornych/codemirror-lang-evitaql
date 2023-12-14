@@ -1,26 +1,28 @@
-@top Program { expression* }
+@top Query { "query(" constraint ("," constraint)* ")" }
 
-@skip { space | LineComment }
+@skip { space | Comment }
 
-expression {
-  Identifier |
-  String |
-  Boolean |
-  Application { "(" expression* ")" }
+constraint {
+    HeadConstraint |
+    FilterConstraint
+}
+
+HeadConstraint {
+    collection { "collection()" }
+}
+
+FilterConstraint {
+    filterBy { "filterBy(" FilterConstraint ("," FilterConstraint)* ")" } |
+    and { "and(" FilterConstraint ("," FilterConstraint)* ")" } |
+    attributeEquals { "attributeEquals()" }
 }
 
 @tokens {
-  Identifier { $[a-zA-Z_\-0-9]+ }
+    Comment { "//" ![\n]* }
 
-  String { '"' (!["\\] | "\\" _)* '"' }
+    space { $[ \t\n\r]+ }
 
-  Boolean { "#t" | "#f" }
-
-  LineComment { ";" ![\n]* }
-
-  space { $[ \t\n\r]+ }
-
-  "(" ")"
+    "(" ")"
 }
 
 @detectDelim

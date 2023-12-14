@@ -7,33 +7,41 @@ export const evitaQLLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       indentNodeProp.add({
-        Application: delimitedIndent({closing: ")", align: false})
+        Query: delimitedIndent({closing: ")", align: true})
       }),
       foldNodeProp.add({
-        Application: foldInside
+        Query: foldInside
       }),
       styleTags({
-        Identifier: t.variableName,
-        Boolean: t.bool,
-        String: t.string,
-        LineComment: t.lineComment,
+        // Identifier: t.variableName,
+        // Boolean: t.bool,
+        // String: t.string,
+        Query: t.function(t.variableName),
+        HeadConstraint: t.function(t.variableName),
+        FilterConstraint: t.function(t.variableName),
+        Comment: t.lineComment,
         "( )": t.paren
       })
     ]
   }),
   languageData: {
-    commentTokens: {line: ";"}
+    commentTokens: {line: "//"}
   }
 })
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({
   autocomplete: completeFromList([
-    {label: "defun", type: "keyword"},
-    {label: "defvar", type: "keyword"},
-    {label: "let", type: "keyword"},
-    {label: "cons", type: "function"},
-    {label: "car", type: "function"},
-    {label: "cdr", type: "function"}
+    { type: "function", label: "query" },
+    { type: "function", label: "filterBy" },
+    { type: "function", label: "collection" },
+    { type: "function", label: "and" },
+    { type: "function", label: "attributeEquals" },
+    // {label: "defun", type: "keyword"},
+    // {label: "defvar", type: "keyword"},
+    // {label: "let", type: "keyword"},
+    // {label: "cons", type: "function"},
+    // {label: "car", type: "function"},
+    // {label: "cdr", type: "function"}
   ])
 })
 

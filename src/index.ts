@@ -89,6 +89,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
     const tagBefore = /\w+/.exec(textBefore)
     if (!tagBefore && !context.explicit) {
+        console.log('no tag before')
         return null
     }
 

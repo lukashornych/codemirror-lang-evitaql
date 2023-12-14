@@ -93,13 +93,13 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     }
 
     if (nodeBefore.name === 'Request') {
-        return getRequestCompletions(context, nodeBefore)
+        return getRequestCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
     } else if (nodeBefore.name === 'Query') {
-        return getQueryCompletions(context, nodeBefore)
+        return getQueryCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
     } else if (nodeBefore.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, nodeBefore)
+        return getHeadConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
     } else if (nodeBefore.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, nodeBefore)
+        return getFilterConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
     }
 
     const parentNode = nodeBefore.parent
@@ -107,13 +107,13 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
         return null
     }
     if (parentNode.name === 'Request') {
-        return getRequestCompletions(context, parentNode)
+        return getRequestCompletions(context, parentNode, tagBefore as RegExpExecArray)
     } else if (parentNode.name === 'Query') {
-        return getQueryCompletions(context, parentNode)
+        return getQueryCompletions(context, parentNode, tagBefore as RegExpExecArray)
     } else if (parentNode.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, parentNode)
+        return getHeadConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
     } else if (parentNode.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, parentNode)
+        return getFilterConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
     }
 
     return null

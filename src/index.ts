@@ -84,10 +84,10 @@ function createCompletion(label: string, info?: string): Completion {
 // todo
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-    // console.log(nodeBefore)
+    console.log(nodeBefore)
 
     return {
-        from: nodeBefore.from,
+        from: context.pos,
         options: [
             {label: 'query', type: 'function'}
         ]

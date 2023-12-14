@@ -53,9 +53,15 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
   //   options: []
   // }
 
+
   const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
   const nodeName: string = nodeBefore.name
   const inside: boolean = nodeBefore.to < context.pos
+
+  console.log(nodeBefore)
+  console.log(nodeName)
+  console.log(context.pos)
+  console.log(inside)
 
   if (nodeName === "Query") {
     if (inside) {

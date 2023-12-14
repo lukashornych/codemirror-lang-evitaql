@@ -84,39 +84,40 @@ function createCompletion(label: string, info?: string): Completion {
 // todo
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-    console.log(nodeBefore)
+    // console.log(nodeBefore)
 
-    if (nodeBefore.name === 'Request') {
-        // return getRequestCompletions(context, nodeBefore)
-        return {
-            from: nodeBefore.from,
-            options: [
-                createCompletion('query', '`query` is the root construct for querying data.')
-            ]
-        }
-    } else if (nodeBefore.name === 'Query') {
-        return getQueryCompletions(context, nodeBefore)
-    } else if (nodeBefore.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, nodeBefore)
-    } else if (nodeBefore.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, nodeBefore)
+    return {
+        from: nodeBefore.from,
+        options: [
+            {label: 'query', type: 'function'}
+        ]
     }
 
-    const parentNode = nodeBefore.parent
-    if (parentNode == null) {
-        return null
-    }
-    if (parentNode.name === 'Request') {
-        return getRequestCompletions(context, parentNode)
-    } else if (parentNode.name === 'Query') {
-        return getQueryCompletions(context, parentNode)
-    } else if (parentNode.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, parentNode)
-    } else if (parentNode.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, parentNode)
-    }
-
-    return null
+    // if (nodeBefore.name === 'Request') {
+    //     return getRequestCompletions(context, nodeBefore)
+    // } else if (nodeBefore.name === 'Query') {
+    //     return getQueryCompletions(context, nodeBefore)
+    // } else if (nodeBefore.name === 'HeadConstraint') {
+    //     return getHeadConstraintCompletions(context, nodeBefore)
+    // } else if (nodeBefore.name === 'FilterConstraint') {
+    //     return getFilterConstraintCompletions(context, nodeBefore)
+    // }
+    //
+    // const parentNode = nodeBefore.parent
+    // if (parentNode == null) {
+    //     return null
+    // }
+    // if (parentNode.name === 'Request') {
+    //     return getRequestCompletions(context, parentNode)
+    // } else if (parentNode.name === 'Query') {
+    //     return getQueryCompletions(context, parentNode)
+    // } else if (parentNode.name === 'HeadConstraint') {
+    //     return getHeadConstraintCompletions(context, parentNode)
+    // } else if (parentNode.name === 'FilterConstraint') {
+    //     return getFilterConstraintCompletions(context, parentNode)
+    // }
+    //
+    // return null
 }
 
 function getRequestCompletions(context: CompletionContext, node: SyntaxNode): CompletionResult {

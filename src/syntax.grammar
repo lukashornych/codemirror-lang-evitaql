@@ -1,6 +1,8 @@
-@top Query { "query" argsOpening constraint (argsDelimiter constraint)* argsClosing }
+@top Request { Query }
 
 @skip { space | Comment }
+
+Query { "query" argsOpening constraint (argsDelimiter constraint)* argsClosing }
 
 constraint {
     HeadConstraint |

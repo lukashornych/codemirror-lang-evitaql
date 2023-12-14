@@ -96,15 +96,20 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
 
     if (parentNode.name === 'Request') {
         return {
-            from: context.pos,
+            from: nodeBefore.from,
             options: [
-                { label: 'query', type: 'function' }
+                {
+                    label: 'query',
+                    type: 'function',
+                    detail: '`query` is the root construct for querying data.',
+                    apply: 'query('
+                }
             ]
         }
     }
     if (parentNode.name === 'Query') {
         return {
-            from: context.pos,
+            from: nodeBefore.from,
             options: [
                 { label: 'collection', type: 'function' },
                 { label: 'filterBy', type: 'function' },
@@ -115,7 +120,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     }
     if (parentNode.name === 'HeadConstraint') {
         return {
-            from: context.pos,
+            from: nodeBefore.from,
             options: [
                 { label: 'collection', type: 'function' }
             ]
@@ -123,7 +128,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     }
     if (parentNode.name === 'FilterConstraint') {
         return {
-            from: context.pos,
+            from: nodeBefore.from,
             options: [
                 { label: 'and', type: 'function' },
                 { label: 'attributeEquals', type: 'function' },

@@ -1,7 +1,7 @@
 # Queries
 
 query(
-    collection(),
+    collection("Product"),
     filterBy(
         and(
             attributeEquals()
@@ -12,7 +12,7 @@ query(
 ==>
 
 Query(
-    HeadConstraint,
+    HeadConstraint(String),
     FilterConstraint(
         FilterConstraint(
             FilterConstraint

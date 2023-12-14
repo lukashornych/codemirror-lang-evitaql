@@ -8,7 +8,7 @@ constraint {
 }
 
 HeadConstraint {
-    collection { "collection()" }
+    collection { "collection(" classifierToken ")" }
 }
 
 FilterConstraint {
@@ -17,7 +17,17 @@ FilterConstraint {
     attributeEquals { "attributeEquals()" }
 }
 
+classifierToken {
+    String
+}
+
+valueToken {
+    String
+}
+
 @tokens {
+    String { '"' (!["\\] | "\\" _)* '"' }
+
     Comment { "//" ![\n]* }
 
     space { $[ \t\n\r]+ }

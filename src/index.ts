@@ -1,6 +1,6 @@
 import {parser} from "./syntax.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
-import {completeFromList} from "@codemirror/autocomplete"
+import { completeFromList, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import {styleTags, tags as t} from "@lezer/highlight"
 
 export const evitaQLLanguage = LRLanguage.define({
@@ -19,7 +19,7 @@ export const evitaQLLanguage = LRLanguage.define({
       styleTags({
         // Identifier: t.variableName,
         // Boolean: t.bool,
-        // String: t.string,
+        String: t.string,
         Query: t.function(t.variableName),
         HeadConstraint: t.function(t.variableName),
         FilterConstraint: t.function(t.variableName),
@@ -33,20 +33,28 @@ export const evitaQLLanguage = LRLanguage.define({
   }
 })
 
+function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
+  let word = context.matchBefore(/\(/)
+  if (word == null || (word.from == word.to && !context.explicit)) {
+    return null
+  }
+  if (word.text === "filterBy") {
+    return {
+      from: word.from,
+      options:  [
+        { type: "function", label: "and" },
+        { type: "function", label: "attributeEquals" }
+      ]
+    }
+  }
+  return {
+    from: word.from,
+    options: []
+  }
+}
+
 export const evitaQLCompletion = evitaQLLanguage.data.of({
-  autocomplete: completeFromList([
-    { type: "function", label: "query" },
-    { type: "function", label: "filterBy" },
-    { type: "function", label: "collection" },
-    { type: "function", label: "and" },
-    { type: "function", label: "attributeEquals" },
-    // {label: "defun", type: "keyword"},
-    // {label: "defvar", type: "keyword"},
-    // {label: "let", type: "keyword"},
-    // {label: "cons", type: "function"},
-    // {label: "car", type: "function"},
-    // {label: "cdr", type: "function"}
-  ])
+  autocomplete: getEvitaQLCompletions
 })
 
 export function evitaQL() {

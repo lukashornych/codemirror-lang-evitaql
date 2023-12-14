@@ -53,8 +53,31 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
   //   options: []
   // }
 
-  let nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-  console.log(nodeBefore)
+  const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  const nodeName: string = nodeBefore.name
+  const inside: boolean = nodeBefore.to < context.pos
+
+  if (nodeName === "Query") {
+    if (inside) {
+      return {
+        from: context.pos,
+        options: [
+          { label: "filterBy", type: "function" },
+        ]
+      }
+    }
+  } else if (nodeName === "FilterBy") {
+    if (inside) {
+      return {
+        from: context.pos,
+        options: [
+          { label: "and", type: "function" },
+          { label: "attributeEquals", type: "function" },
+        ]
+      }
+    }
+  }
+
   return null
 }
 

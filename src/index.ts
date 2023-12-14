@@ -10,6 +10,7 @@ import {
 } from '@codemirror/language'
 import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import { styleTags, tags as t } from '@lezer/highlight'
+import { SyntaxNode } from '@lezer/common'
 import { Diagnostic, linter } from '@codemirror/lint'
 
 /*
@@ -83,37 +84,59 @@ function createCompletion(label: string, info?: string): Completion {
 // todo
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-    const parentNode = nodeBefore.parent
-    console.log(nodeBefore)
 
-    if (nodeBefore.name === 'Request' || parentNode?.name === 'Request') {
-        return {
-            from: nodeBefore.from,
-            options: [
-                createCompletion('query', '`query` is the root construct for querying data.')
-            ]
-        }
+    if (nodeBefore.name === 'Request') {
+        return getRequestCompletions(context, nodeBefore)
+    } else if (nodeBefore.name === 'Query') {
+        return getQueryCompletions(context, nodeBefore)
+    } else if (nodeBefore.name === 'HeadConstraint') {
+        return getHeadConstraintCompletions(context, nodeBefore)
+    } else if (nodeBefore.name === 'FilterConstraint') {
+        return getFilterConstraintCompletions(context, nodeBefore)
     }
-    if (nodeBefore.name === 'Query' || parentNode?.name === 'Query') {
-        return {
-            from: nodeBefore.from,
-            options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
-        }
+
+    const parentNode = nodeBefore.parent
+    if (parentNode == null) {
+        return null
     }
-    if (nodeBefore.name === 'HeadConstraint' || parentNode?.name === 'HeadConstraint') {
-        return {
-            from: nodeBefore.from,
-            options: []
-        }
-    }
-    if (nodeBefore.name === 'FilterConstraint' || parentNode?.name === 'FilterConstraint') {
-        return {
-            from: nodeBefore.from,
-            options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))
-        }
+    if (parentNode.name === 'Request') {
+        return getRequestCompletions(context, nodeBefore)
+    } else if (parentNode.name === 'Query') {
+        return getQueryCompletions(context, nodeBefore)
+    } else if (parentNode.name === 'HeadConstraint') {
+        return getHeadConstraintCompletions(context, nodeBefore)
+    } else if (parentNode.name === 'FilterConstraint') {
+        return getFilterConstraintCompletions(context, nodeBefore)
     }
 
     return null
+}
+
+function getRequestCompletions(context: CompletionContext, node: SyntaxNode): CompletionResult {
+    return {
+        from: node.from,
+        options: [
+            createCompletion('query', '`query` is the root construct for querying data.')
+        ]
+    }
+}
+function getQueryCompletions(context: CompletionContext, node: SyntaxNode): CompletionResult {
+    return {
+        from: node.from,
+        options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
+    }
+}
+function getHeadConstraintCompletions(context: CompletionContext, node: SyntaxNode): CompletionResult {
+    return {
+        from: node.from,
+        options: []
+    }
+}
+function getFilterConstraintCompletions(context: CompletionContext, node: SyntaxNode): CompletionResult {
+    return {
+        from: node.from,
+        options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))
+    }
 }
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({

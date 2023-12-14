@@ -23,7 +23,9 @@ export const evitaQLLanguage = LRLanguage.define({
         Query: delimitedIndent({closing: ")", align: true}),
         HeadConstraint: delimitedIndent({closing: ")", align: true}),
         FilterConstraint: delimitedIndent({closing: ")", align: true}),
+        Range: delimitedIndent({closing: "]", align: true}),
       }),
+      // todo this is not working
       foldNodeProp.add({
         Query: foldInside,
         HeadConstraint: foldInside,

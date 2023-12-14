@@ -68,7 +68,7 @@ export const evitaQLLanguage = LRLanguage.define({
 
 function createCompletion(label: string, info?: string): Completion {
     return {
-        label,
+        label: label + '(...)',
         type: 'function',
         info,
         apply: (view, completion, from, to) => {
@@ -84,6 +84,7 @@ function createCompletion(label: string, info?: string): Completion {
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
     const parentNode = nodeBefore.parent
+    console.log(parentNode)
     if (parentNode == null) {
         return null
     }

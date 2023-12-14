@@ -8,7 +8,7 @@ import {
     delimitedIndent,
     syntaxTree
 } from '@codemirror/language'
-import { completeFromList, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import { styleTags, tags as t } from '@lezer/highlight'
 import { Diagnostic, linter } from '@codemirror/lint'
 
@@ -66,28 +66,22 @@ export const evitaQLLanguage = LRLanguage.define({
     }
 })
 
+function createCompletion(label: string, info?: string): Completion {
+    return {
+        label,
+        type: 'function',
+        info,
+        apply: (view, completion, from, to) => {
+            view.dispatch({
+                changes: { from, to, insert: label + '()' },
+                selection: { anchor: from + label.length + 1 }
+            })
+        }
+    }
+}
+
 // todo
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
-    // let word = context.matchBefore(/\(/)
-    // if (word == null || (word.from == word.to && !context.explicit)) {
-    //   return null
-    // }
-    // console.log(word)
-    // if (word.text === "filterBy") {
-    //   return {
-    //     from: word.from,
-    //     options:  [
-    //       { type: "function", label: "and" },
-    //       { type: "function", label: "attributeEquals" }
-    //     ]
-    //   }
-    // }
-    // return {
-    //   from: word.from,
-    //   options: []
-    // }
-
-
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
     const parentNode = nodeBefore.parent
     if (parentNode == null) {
@@ -98,61 +92,28 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
         return {
             from: nodeBefore.from,
             options: [
-                {
-                    label: 'query',
-                    type: 'function',
-                    info: '`query` is the root construct for querying data.',
-                    apply: (view, completion, from, to) => {
-                        view.dispatch({
-                            changes: { from, to, insert: 'query()' },
-                            selection: { anchor: to - 1 }
-                        })
-                    }
-                }
+                createCompletion('query', '`query` is the root construct for querying data.')
             ]
         }
     }
     if (parentNode.name === 'Query') {
         return {
             from: nodeBefore.from,
-            options: [
-                { label: 'collection', type: 'function' },
-                { label: 'filterBy', type: 'function' },
-                { label: 'orderBy', type: 'function' },
-                { label: 'require', type: 'function' },
-            ]
+            options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
         }
     }
     if (parentNode.name === 'HeadConstraint') {
         return {
             from: nodeBefore.from,
-            options: [
-                { label: 'collection', type: 'function' }
-            ]
+            options: []
         }
     }
     if (parentNode.name === 'FilterConstraint') {
         return {
             from: nodeBefore.from,
-            options: [
-                { label: 'and', type: 'function' },
-                { label: 'attributeEquals', type: 'function' },
-            ]
+            options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))
         }
     }
-
-    // if (nodeName === 'Query') {
-    //     const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-    //     const tagBefore = /query\($/.exec(textBefore)
-    //     if (!tagBefore && !context.explicit) return null
-    //     return {
-    //         from: tagBefore ? nodeBefore.from + tagBefore.index : context.pos,
-    //         options: [
-    //             { label: 'filterBy', type: 'function' }
-    //         ],
-    //         validFor: /^(query\()?$/
-    //     }
-    // }
 
     return null
 }

@@ -84,6 +84,7 @@ function createCompletion(label: string, info?: string): Completion {
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
     const parentNode = nodeBefore.parent
+    console.log(nodeBefore)
 
     if (nodeBefore.name === 'Request' || parentNode?.name === 'Request') {
         return {
@@ -225,7 +226,6 @@ export const evitaQLLinter = linter(view => {
 
     syntaxTree(view.state).cursor().iterate(node => {
         if (node.type.isError) {
-            console.log(node)
             diagnostics.push({
                 from: node.from,
                 to: node.to,

@@ -38,6 +38,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
   if (word == null || (word.from == word.to && !context.explicit)) {
     return null
   }
+  console.log(word)
   if (word.text === "filterBy") {
     return {
       from: word.from,

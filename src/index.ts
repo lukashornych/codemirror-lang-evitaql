@@ -1,8 +1,9 @@
 import {parser} from "./syntax.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent} from "@codemirror/language"
+import {completeFromList} from "@codemirror/autocomplete"
 import {styleTags, tags as t} from "@lezer/highlight"
 
-export const EXAMPLELanguage = LRLanguage.define({
+export const evitaQLLanguage = LRLanguage.define({
   parser: parser.configure({
     props: [
       indentNodeProp.add({
@@ -25,6 +26,17 @@ export const EXAMPLELanguage = LRLanguage.define({
   }
 })
 
-export function EXAMPLE() {
-  return new LanguageSupport(EXAMPLELanguage)
+export const evitaQLCompletion = evitaQLLanguage.data.of({
+  autocomplete: completeFromList([
+    {label: "defun", type: "keyword"},
+    {label: "defvar", type: "keyword"},
+    {label: "let", type: "keyword"},
+    {label: "cons", type: "function"},
+    {label: "car", type: "function"},
+    {label: "cdr", type: "function"}
+  ])
+})
+
+export function evitaQL() {
+  return new LanguageSupport(evitaQLLanguage, [evitaQLCompletion])
 }

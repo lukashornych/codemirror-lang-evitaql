@@ -87,7 +87,13 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     console.log(nodeBefore)
 
     if (nodeBefore.name === 'Request') {
-        return getRequestCompletions(context, nodeBefore)
+        // return getRequestCompletions(context, nodeBefore)
+        return {
+            from: nodeBefore.from,
+            options: [
+                createCompletion('query', '`query` is the root construct for querying data.')
+            ]
+        }
     } else if (nodeBefore.name === 'Query') {
         return getQueryCompletions(context, nodeBefore)
     } else if (nodeBefore.name === 'HeadConstraint') {

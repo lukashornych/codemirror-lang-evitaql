@@ -13,6 +13,7 @@ HeadConstraint {
 
 FilterConstraint {
     filterBy { "filterBy" argsOpening FilterConstraint (argsDelimiter FilterConstraint)* argsClosing } |
+    filterGroupBy { "filterGroupBy" argsOpening FilterConstraint (argsDelimiter FilterConstraint)* argsClosing } |
     and { "and" argsOpening FilterConstraint (argsDelimiter FilterConstraint)* argsClosing } |
     attributeEquals { "attributeEquals" argsOpening valueToken argsClosing }
 }

@@ -2,6 +2,7 @@ import {parser} from "./syntax.grammar"
 import {LRLanguage, LanguageSupport, indentNodeProp, foldNodeProp, foldInside, delimitedIndent, syntaxTree} from "@codemirror/language"
 import { completeFromList, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import {styleTags, tags as t} from "@lezer/highlight"
+import { Diagnostic, linter } from '@codemirror/lint'
 
 /*
   todo
@@ -26,11 +27,11 @@ export const evitaQLLanguage = LRLanguage.define({
         Range: delimitedIndent({closing: "]", align: true}),
       }),
       // todo this is not working
-      foldNodeProp.add({
-        Query: foldInside,
-        HeadConstraint: foldInside,
-        FilterConstraint: foldInside,
-      }),
+      // foldNodeProp.add({
+      //   Query: foldInside,
+      //   HeadConstraint: foldInside,
+      //   FilterConstraint: foldInside,
+      // }),
       styleTags({
         String: t.string,
         Int: t.integer,
@@ -204,6 +205,23 @@ export const evitaQLCompletion = evitaQLLanguage.data.of({
     "hierarchyOfReference",
     "queryTelemetry"
   ].map(constraint => ({label: constraint, type: "function"})))
+})
+
+export const evitaQLLinter = linter(view => {
+  const diagnostics: Diagnostic[] = [];
+
+  syntaxTree(view.state).cursor().iterate(node => {
+    if (node.type.isError) {
+      diagnostics.push({
+        from: node.from,
+        to: node.to,
+        severity: "error",
+        message: "Syntax error.",
+      });
+    }
+  });
+
+  return diagnostics;
 })
 
 export function evitaQL() {

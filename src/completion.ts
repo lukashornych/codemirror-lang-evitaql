@@ -62,20 +62,24 @@ function getRequestCompletions(context: CompletionContext, node: SyntaxNode, tag
     return {
         from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: [
-            createCompletion('query', '`query` is the root construct for querying data.')
-        ]
+            createCompletion('query', '`query` is the root construct for querying data.'),
+            createCompletion('query2', '`query` is the root construct for querying data.')
+        ],
+        validFor: /^(\w+)?$/
     }
 }
 function getQueryCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : context.pos,
-        options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
+        options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it)),
+        validFor: /^(\w+)?$/
     }
 }
 function getConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : context.pos,
-        options: Object.keys(constraints).map(it => createCompletion(it))
+        options: Object.keys(constraints).map(it => createCompletion(it)),
+        validFor: /^(\w+)?$/
     }
 }
 

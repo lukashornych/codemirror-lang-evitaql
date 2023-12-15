@@ -12,6 +12,7 @@ import { completeFromList, Completion, CompletionContext, CompletionResult } fro
 import { styleTags, tags as t } from '@lezer/highlight'
 import { SyntaxNode } from '@lezer/common'
 import { Diagnostic, linter } from '@codemirror/lint'
+import constraints from './constraints.json'
 
 /*
   todo
@@ -63,16 +64,18 @@ export const evitaQLLanguage = LRLanguage.define({
 })
 
 function createCompletion(label: string, info?: string): Completion {
+    const constraintDefinition: any = constraints[label]
     return {
-        label/*: label + '(...)'*/,
+        label,
+        detail: '(...)',
         type: 'function',
-        info/*,
+        info: info ? info : constraintDefinition['shortDescription'] + "\n\n" + constraintDefinition['userDocsLink'],
         apply: (view, completion, from, to) => {
             view.dispatch({
                 changes: { from, to, insert: label + '()' },
                 selection: { anchor: from + label.length + 1 }
             })
-        }*/
+        }
     }
 }
 

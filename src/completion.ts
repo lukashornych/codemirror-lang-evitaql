@@ -1,4 +1,4 @@
-import { Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import { syntaxTree } from '@codemirror/language'
 import { SyntaxNode } from '@lezer/common'
 // @ts-ignore
@@ -6,7 +6,11 @@ import constraints from './constraints.json'
 import { evitaQLLanguage } from './evitaql'
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({
-    autocomplete: getEvitaQLCompletions
+    // autocomplete: getEvitaQLCompletions
+    autocomplete: completeFromList([
+        createCompletion('query', '`query` is the root construct for querying data.'),
+        ...Object.keys(constraints).map(it => createCompletion(it))
+    ])
 })
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {

@@ -64,7 +64,8 @@ export const evitaQLLanguage = LRLanguage.define({
 
 function createCompletion(label: string, info?: string): Completion {
     return {
-        label: label + '(...)',
+        label,
+        detail: '(...)',
         type: 'function',
         info,
         apply: (view, completion, from, to) => {
@@ -85,7 +86,6 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
         const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
         const tagBefore = /\w+/.exec(textBefore)
         if (!tagBefore && !context.explicit) {
-            console.log('no tag before')
             return null
         }
 

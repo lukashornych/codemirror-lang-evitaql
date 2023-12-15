@@ -6,6 +6,8 @@ query(
         and(
             attributeEquals("code", "name"),
             attributeEquals("code", 'name'),
+            attributeEquals("code", 'name\"\t\n\b\r'),
+            attributeEquals("code", "name\"\t\n\b\r"),
             attributeEquals("code", 10),
             attributeEquals("code", -10),
             attributeEquals("code", 10.1),
@@ -56,6 +58,12 @@ Request(
                     Constraint(
                         ConstraintBody(
                             ArgsOpening,
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+                            ),
                             Constraint(
                                 ConstraintBody(ArgsOpening, String, String, ArgsClosing)
                             ),

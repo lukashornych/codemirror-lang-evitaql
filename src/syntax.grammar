@@ -4,14 +4,14 @@
 
 Query { "query" QueryBody }
 
-QueryBody { argsOpening (RootConstraint (argsDelimiter RootConstraint)*) argsClosing }
+QueryBody { "(" (RootConstraint (argsDelimiter RootConstraint)*) ")" }
 
 /* temporary separation of constraint types before we have full LSP completion/linter */
 RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") ConstraintBody }
 
 Constraint { constraintName ConstraintBody }
 
-ConstraintBody { argsOpening (arg (argsDelimiter arg)*)? argsClosing }
+ConstraintBody { "(" (arg (argsDelimiter arg)*)? ")" }
 
 arg {
     valueToken |
@@ -154,10 +154,6 @@ valueToken {
     Uuid { $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ "-" $[a-z0-9]+ }
 
     Enum { @asciiUppercase+ ("_" @asciiUppercase+)* }
-
-    argsOpening { "(" }
-
-    argsClosing { ")" }
 
     argsDelimiter { "," }
 

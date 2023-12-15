@@ -30,9 +30,7 @@ export const evitaQLLanguage = LRLanguage.define({
     parser: parser.configure({
         props: [
             indentNodeProp.add({
-                Query: continuedIndent({ except: /\)/}),
-                RootConstraint: delimitedIndent({ closing: ')', align: true }),
-                Constraint: delimitedIndent({ closing: ')', align: true }),
+                "QueryBody ConstraintBody": delimitedIndent({ closing: ')', align: true }),
                 Range: delimitedIndent({ closing: ']', align: true })
             }),
             // todo this is not working

@@ -42,42 +42,121 @@ query(
 ==>
 
 Request(
-    Query(QueryBody(
-        RootConstraint(ConstraintBody(String)),
-        RootConstraint(ConstraintBody(
-            Constraint(ConstraintBody(
-                Constraint(ConstraintBody(String, String)),
-                Constraint(ConstraintBody(String, String)),
-                Constraint(ConstraintBody(String, Int)),
-                Constraint(ConstraintBody(String, Int)),
-                Constraint(ConstraintBody(String, Float)),
-                Constraint(ConstraintBody(String, Float)),
-                Constraint(ConstraintBody(String, Boolean)),
-                Constraint(ConstraintBody(String, Boolean)),
-                Constraint(ConstraintBody(String, Date)),
-                Constraint(ConstraintBody(String, Time)),
-                Constraint(ConstraintBody(String, Time)),
-                Constraint(ConstraintBody(String, DateTime)),
-                Constraint(ConstraintBody(String, DateTime)),
-                Constraint(ConstraintBody(String, OffsetDateTime)),
-                Constraint(ConstraintBody(String, OffsetDateTime)),
-                Constraint(ConstraintBody(String, OffsetDateTime)),
-                Constraint(ConstraintBody(String, OffsetDateTime)),
-                Constraint(ConstraintBody(String, Range(Float,Float))),
-                Constraint(ConstraintBody(String, Range(Float,Float))),
-                Constraint(ConstraintBody(String, Range(Int,Int))),
-                Constraint(ConstraintBody(String, Range(Int,Int))),
-                Constraint(ConstraintBody(String, Range(OffsetDateTime,OffsetDateTime))),
-                Constraint(ConstraintBody(String, Uuid)),
-                Constraint(ConstraintBody(String, Enum)),
-                Constraint(ConstraintBody(String, Enum))
-            ))
-        )),
-        RootConstraint(ConstraintBody(
-            Constraint(ConstraintBody(
-                Constraint(ConstraintBody(String, Constraint(ConstraintBody(Int, Int))))
-            )),
-            Constraint(ConstraintBody)
-        ))
-    ))
+    Query(
+        QueryBody(
+            ArgsOpening,
+            RootConstraint(
+                ConstraintBody(ArgsOpening, String, ArgsClosing)
+            ),
+            RootConstraint(
+                ConstraintBody(
+                    ArgsOpening,
+                    Constraint(
+                        ConstraintBody(
+                            ArgsOpening,
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Int, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Int, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Float, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Float, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Boolean, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Boolean, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Date, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Time, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Time, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, DateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, DateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, OffsetDateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, OffsetDateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, OffsetDateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, OffsetDateTime, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Range(Float,Float), ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Range(Float,Float), ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Range(Int,Int), ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Range(Int,Int), ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Range(OffsetDateTime,OffsetDateTime), ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Uuid, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Enum, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, Enum, ArgsClosing)
+                            ),
+                            ArgsClosing
+                        )
+                    ),
+                    ArgsClosing
+                )
+            ),
+            RootConstraint(
+                ConstraintBody(
+                    ArgsOpening,
+                    Constraint(
+                        ConstraintBody(
+                            ArgsOpening,
+                            Constraint(
+                                ConstraintBody(
+                                    ArgsOpening,
+                                    String,
+                                    Constraint(ConstraintBody(ArgsOpening, Int, Int, ArgsClosing)),
+                                    ArgsClosing
+                                )
+                            ),
+                            ArgsClosing
+                        )
+                    ),
+                    Constraint(ConstraintBody(ArgsOpening, ArgsClosing)),
+                    ArgsClosing
+                )
+            ),
+            ArgsClosing
+        )
+    )
 )

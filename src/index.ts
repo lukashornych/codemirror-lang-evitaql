@@ -117,7 +117,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
 
 function getRequestCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
-        from: tagBefore ? node.from + tagBefore.index : node.from,
+        from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: [
             createCompletion('query', '`query` is the root construct for querying data.')
         ]
@@ -125,26 +125,26 @@ function getRequestCompletions(context: CompletionContext, node: SyntaxNode, tag
 }
 function getQueryCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
-        from: tagBefore ? node.from + tagBefore.index : node.from,
+        from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
     }
 }
 function getHeadConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
-        from: tagBefore ? node.from + tagBefore.index : node.from,
+        from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: []
     }
 }
 function getFilterConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
-        from: tagBefore ? node.from + tagBefore.index : node.from,
+        from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))
     }
 }
 
 export const evitaQLCompletion = evitaQLLanguage.data.of({
-    // autocomplete: getEvitaQLCompletions
-    autocomplete: completeFromList([
+    autocomplete: getEvitaQLCompletions
+    /*autocomplete: completeFromList([
         'query',
 
         'collection',
@@ -244,7 +244,7 @@ export const evitaQLCompletion = evitaQLLanguage.data.of({
         'hierarchyOfSelf',
         'hierarchyOfReference',
         'queryTelemetry'
-    ].map(constraint => ({ label: constraint, type: 'function' })))
+    ].map(constraint => ({ label: constraint, type: 'function' })))*/
 })
 
 export const evitaQLLinter = linter(view => {

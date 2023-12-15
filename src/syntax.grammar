@@ -2,9 +2,9 @@
 
 @skip { space | Comment }
 
-Query { "query" argsOpening RootConstraint (argsDelimiter RootConstraint)* argsClosing }
+Query { "query" QueryBody }
 
-QueryBody { argsOpening RootConstraint (argsDelimiter RootConstraint)* argsClosing }
+QueryBody { argsOpening (RootConstraint (argsDelimiter RootConstraint)*) argsClosing }
 
 /* temporary separation of constraint types before we have full LSP completion/linter */
 RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") ConstraintBody }

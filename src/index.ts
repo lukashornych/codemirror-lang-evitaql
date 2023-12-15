@@ -12,6 +12,7 @@ import { completeFromList, Completion, CompletionContext, CompletionResult } fro
 import { styleTags, tags as t } from '@lezer/highlight'
 import { SyntaxNode } from '@lezer/common'
 import { Diagnostic, linter } from '@codemirror/lint'
+// @ts-ignore
 import constraints from './constraints.json'
 
 /*

@@ -19,6 +19,8 @@ arg {
 }
 
 valueToken {
+    PositionalParameter |
+    NamedParameter |
     String |
     Int |
     Float |
@@ -132,6 +134,10 @@ valueToken {
         "queryTelemetry"
     }
 
+    PositionalParameter { "?" }
+
+    NamedParameter { "@" @asciiLowercase [a-zA-Z0-9]*  }
+
     String {
         ('"' (!["\\] | "\\" _)* '"') |
         ('\'' (!["\\] | "\\" _)* '\'')
@@ -167,6 +173,8 @@ valueToken {
 
     @precedence {
         constraintName,
+        PositionalParameter,
+        NamedParameter,
         String,
         OffsetDateTime,
         DateTime,

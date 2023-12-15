@@ -6,7 +6,7 @@ import {
     foldNodeProp,
     foldInside,
     delimitedIndent,
-    syntaxTree
+    syntaxTree, continuedIndent
 } from '@codemirror/language'
 import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
 import { styleTags, tags as t } from '@lezer/highlight'
@@ -30,17 +30,17 @@ export const evitaQLLanguage = LRLanguage.define({
     parser: parser.configure({
         props: [
             indentNodeProp.add({
-                Query: delimitedIndent({ closing: ')', align: true }),
+                Query: continuedIndent({ except: /\)/}),
                 RootConstraint: delimitedIndent({ closing: ')', align: true }),
                 Constraint: delimitedIndent({ closing: ')', align: true }),
                 Range: delimitedIndent({ closing: ']', align: true })
             }),
             // todo this is not working
             foldNodeProp.add({
-                Query: foldInside,
-                RootConstraint: foldInside,
-                Constraint: foldInside,
-                Range: foldInside
+                "( )": foldInside,
+                // RootConstraint: foldInside,
+                // Constraint: foldInside,
+                // Range: foldInside
             }),
             styleTags({
                 String: t.string,

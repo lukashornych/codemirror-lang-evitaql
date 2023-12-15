@@ -42,42 +42,42 @@ query(
 ==>
 
 Request(
-    Query(
-        Constraint(String),
-        Constraint(
-            Constraint(
-                Constraint(String, String),
-                Constraint(String, String),
-                Constraint(String, Int),
-                Constraint(String, Int),
-                Constraint(String, Float),
-                Constraint(String, Float),
-                Constraint(String, Boolean),
-                Constraint(String, Boolean),
-                Constraint(String, Date),
-                Constraint(String, Time),
-                Constraint(String, Time),
-                Constraint(String, DateTime),
-                Constraint(String, DateTime),
-                Constraint(String, OffsetDateTime),
-                Constraint(String, OffsetDateTime),
-                Constraint(String, OffsetDateTime),
-                Constraint(String, OffsetDateTime),
-                Constraint(String, Range(Float,Float)),
-                Constraint(String, Range(Float,Float)),
-                Constraint(String, Range(Int,Int)),
-                Constraint(String, Range(Int,Int)),
-                Constraint(String, Range(OffsetDateTime,OffsetDateTime)),
-                Constraint(String, Uuid),
-                Constraint(String, Enum),
-                Constraint(String, Enum)
-            )
-        ),
-        Constraint(
-            Constraint(
-                Constraint(String, Constraint(Int, Int))
-            ),
-            Constraint
-        )
-    )
+    Query(QueryBody(
+        RootConstraint(ConstraintBody(String)),
+        RootConstraint(ConstraintBody(
+            Constraint(ConstraintBody(
+                Constraint(ConstraintBody(String, String)),
+                Constraint(ConstraintBody(String, String)),
+                Constraint(ConstraintBody(String, Int)),
+                Constraint(ConstraintBody(String, Int)),
+                Constraint(ConstraintBody(String, Float)),
+                Constraint(ConstraintBody(String, Float)),
+                Constraint(ConstraintBody(String, Boolean)),
+                Constraint(ConstraintBody(String, Boolean)),
+                Constraint(ConstraintBody(String, Date)),
+                Constraint(ConstraintBody(String, Time)),
+                Constraint(ConstraintBody(String, Time)),
+                Constraint(ConstraintBody(String, DateTime)),
+                Constraint(ConstraintBody(String, DateTime)),
+                Constraint(ConstraintBody(String, OffsetDateTime)),
+                Constraint(ConstraintBody(String, OffsetDateTime)),
+                Constraint(ConstraintBody(String, OffsetDateTime)),
+                Constraint(ConstraintBody(String, OffsetDateTime)),
+                Constraint(ConstraintBody(String, Range(Float,Float))),
+                Constraint(ConstraintBody(String, Range(Float,Float))),
+                Constraint(ConstraintBody(String, Range(Int,Int))),
+                Constraint(ConstraintBody(String, Range(Int,Int))),
+                Constraint(ConstraintBody(String, Range(OffsetDateTime,OffsetDateTime))),
+                Constraint(ConstraintBody(String, Uuid)),
+                Constraint(ConstraintBody(String, Enum)),
+                Constraint(ConstraintBody(String, Enum))
+            ))
+        )),
+        RootConstraint(ConstraintBody(
+            Constraint(ConstraintBody(
+                Constraint(ConstraintBody(String, Constraint(ConstraintBody(Int, Int))))
+            )),
+            Constraint(ConstraintBody)
+        ))
+    ))
 )

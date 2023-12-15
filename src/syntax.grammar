@@ -4,14 +4,14 @@
 
 Query { "query" QueryBody }
 
-QueryBody { "(" (RootConstraint (argsDelimiter RootConstraint)*) ")" }
+QueryBody { ArgsOpening (RootConstraint (argsDelimiter RootConstraint)*) ArgsClosing }
 
 /* temporary separation of constraint types before we have full LSP completion/linter */
 RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") ConstraintBody }
 
 Constraint { constraintName ConstraintBody }
 
-ConstraintBody { "(" (arg (argsDelimiter arg)*)? ")" }
+ConstraintBody { ArgsOpening (arg (argsDelimiter arg)*)? ArgsClosing }
 
 arg {
     valueToken |
@@ -156,6 +156,10 @@ valueToken {
     Enum { @asciiUppercase+ ("_" @asciiUppercase+)* }
 
     argsDelimiter { "," }
+
+    ArgsOpening { "(" }
+
+    ArgsClosing { ")" }
 
     Comment { "//" ![\n]* }
 

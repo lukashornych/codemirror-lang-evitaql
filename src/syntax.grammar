@@ -4,10 +4,14 @@
 
 Query { "query" argsOpening RootConstraint (argsDelimiter RootConstraint)* argsClosing }
 
-/* temporary separation of constraint types before we have full LSP completion/linter */
-RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") argsOpening (arg (argsDelimiter arg)*)? argsClosing }
+QueryBody { argsOpening RootConstraint (argsDelimiter RootConstraint)* argsClosing }
 
-Constraint { constraintName argsOpening (arg (argsDelimiter arg)*)? argsClosing }
+/* temporary separation of constraint types before we have full LSP completion/linter */
+RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") ConstraintBody }
+
+Constraint { constraintName ConstraintBody }
+
+ConstraintBody { argsOpening (arg (argsDelimiter arg)*)? argsClosing }
 
 arg {
     valueToken |

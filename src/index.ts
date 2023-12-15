@@ -37,10 +37,8 @@ export const evitaQLLanguage = LRLanguage.define({
             }),
             // todo this is not working
             foldNodeProp.add({
-                "( )": foldInside,
-                // RootConstraint: foldInside,
-                // Constraint: foldInside,
-                // Range: foldInside
+                QueryBody: foldInside,
+                ConstraintBody: foldInside
             }),
             styleTags({
                 String: t.string,

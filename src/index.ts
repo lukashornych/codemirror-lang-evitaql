@@ -81,38 +81,43 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
     console.log(nodeBefore)
 
-    const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-    const tagBefore = /\w+/.exec(textBefore)
-    if (!tagBefore && !context.explicit) {
-        console.log('no tag before')
+    const result: CompletionResult | null = (() => {
+        const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
+        const tagBefore = /\w+/.exec(textBefore)
+        if (!tagBefore && !context.explicit) {
+            console.log('no tag before')
+            return null
+        }
+
+        if (nodeBefore.name === 'Request') {
+            return getRequestCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
+        } else if (nodeBefore.name === 'Query') {
+            return getQueryCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
+        } else if (nodeBefore.name === 'HeadConstraint') {
+            return getHeadConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
+        } else if (nodeBefore.name === 'FilterConstraint') {
+            return getFilterConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
+        }
+
+        const parentNode = nodeBefore.parent
+        if (parentNode == null) {
+            return null
+        }
+        if (parentNode.name === 'Request') {
+            return getRequestCompletions(context, parentNode, tagBefore as RegExpExecArray)
+        } else if (parentNode.name === 'Query') {
+            return getQueryCompletions(context, parentNode, tagBefore as RegExpExecArray)
+        } else if (parentNode.name === 'HeadConstraint') {
+            return getHeadConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
+        } else if (parentNode.name === 'FilterConstraint') {
+            return getFilterConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
+        }
+
         return null
-    }
+    })()
 
-    if (nodeBefore.name === 'Request') {
-        return getRequestCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-    } else if (nodeBefore.name === 'Query') {
-        return getQueryCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-    } else if (nodeBefore.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-    } else if (nodeBefore.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-    }
-
-    const parentNode = nodeBefore.parent
-    if (parentNode == null) {
-        return null
-    }
-    if (parentNode.name === 'Request') {
-        return getRequestCompletions(context, parentNode, tagBefore as RegExpExecArray)
-    } else if (parentNode.name === 'Query') {
-        return getQueryCompletions(context, parentNode, tagBefore as RegExpExecArray)
-    } else if (parentNode.name === 'HeadConstraint') {
-        return getHeadConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
-    } else if (parentNode.name === 'FilterConstraint') {
-        return getFilterConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
-    }
-
-    return null
+    console.log(result)
+    return result
 }
 
 function getRequestCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {

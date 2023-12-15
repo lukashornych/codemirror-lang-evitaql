@@ -91,26 +91,22 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
 
         if (nodeBefore.name === 'Request') {
             return getRequestCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-        } else if (nodeBefore.name === 'Query') {
+        } else if (nodeBefore.name === 'QueryBody') {
             return getQueryCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-        } else if (nodeBefore.name === 'HeadConstraint') {
-            return getHeadConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
-        } else if (nodeBefore.name === 'FilterConstraint') {
-            return getFilterConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
+        } else if (nodeBefore.name === 'ConstraintBody') {
+            return getConstraintCompletions(context, nodeBefore, tagBefore as RegExpExecArray)
         }
 
-        const parentNode = nodeBefore.parent
+        let parentNode = nodeBefore.parent
         if (parentNode == null) {
             return null
         }
         if (parentNode.name === 'Request') {
             return getRequestCompletions(context, parentNode, tagBefore as RegExpExecArray)
-        } else if (parentNode.name === 'Query') {
+        } else if (parentNode.name === 'QueryBody') {
             return getQueryCompletions(context, parentNode, tagBefore as RegExpExecArray)
-        } else if (parentNode.name === 'HeadConstraint') {
-            return getHeadConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
-        } else if (parentNode.name === 'FilterConstraint') {
-            return getFilterConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
+        } else if (parentNode.name === 'ConstraintBody') {
+            return getConstraintCompletions(context, parentNode, tagBefore as RegExpExecArray)
         }
 
         return null
@@ -134,13 +130,7 @@ function getQueryCompletions(context: CompletionContext, node: SyntaxNode, tagBe
         options: ['collection', 'filterBy', 'orderBy', 'require'].map(it => createCompletion(it))
     }
 }
-function getHeadConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
-    return {
-        from: tagBefore ? node.from + tagBefore.index : context.pos,
-        options: []
-    }
-}
-function getFilterConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
+function getConstraintCompletions(context: CompletionContext, node: SyntaxNode, tagBefore: RegExpExecArray): CompletionResult {
     return {
         from: tagBefore ? node.from + tagBefore.index : context.pos,
         options: ['and', 'or', 'not', 'attributeEquals'].map(it => createCompletion(it))

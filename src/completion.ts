@@ -15,7 +15,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
 
     const result: CompletionResult | null = (() => {
         let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-        let tagBefore = /\w+/.exec(textBefore)
+        let tagBefore = /[a-zA-Z]+/.exec(textBefore)
         console.log(textBefore)
         console.log(tagBefore)
         if (!tagBefore && !context.explicit) {
@@ -36,7 +36,7 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
             return null
         }
         textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
-        tagBefore = /\w+/.exec(textBefore)
+        tagBefore = /[a-zA-Z]+/.exec(textBefore)
         if (!tagBefore && !context.explicit) {
             console.log('no tag before parent')
             return null

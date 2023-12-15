@@ -8,22 +8,18 @@ import { evitaQLLanguage } from './evitaql'
 export const evitaQLCompletion = evitaQLLanguage.data.of({
     // autocomplete: getEvitaQLCompletions
     autocomplete: completeFromList([
-        createCompletion('query', '`query` is the root construct for querying data.'),
+        createCompletion('query', 'Query is the root construct for querying data.'),
         ...Object.keys(constraints).map(it => createCompletion(it))
     ])
 })
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
-    console.log(nodeBefore)
 
     const result: CompletionResult | null = (() => {
         let textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
         let tagBefore = /[a-zA-Z]+/.exec(textBefore)
-        console.log(textBefore)
-        console.log(tagBefore)
         if (!tagBefore && !context.explicit) {
-            console.log('no tag before')
             return null
         }
 
@@ -42,11 +38,8 @@ function getEvitaQLCompletions(context: CompletionContext): CompletionResult | n
         textBefore = context.state.sliceDoc(nodeBefore.from, context.pos)
         tagBefore = /[a-zA-Z]+/.exec(textBefore)
         if (!tagBefore && !context.explicit) {
-            console.log('no tag before parent')
             return null
         }
-        console.log(textBefore)
-        console.log(tagBefore)
         if (parentNode.name === 'Request') {
             return getRequestCompletions(context, parentNode, tagBefore as RegExpExecArray)
         } else if (parentNode.name === 'QueryBody') {

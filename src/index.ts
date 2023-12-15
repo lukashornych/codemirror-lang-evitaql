@@ -31,16 +31,17 @@ export const evitaQLLanguage = LRLanguage.define({
         props: [
             indentNodeProp.add({
                 Query: delimitedIndent({ closing: ')', align: true }),
-                HeadConstraint: delimitedIndent({ closing: ')', align: true }),
-                FilterConstraint: delimitedIndent({ closing: ')', align: true }),
+                RootConstraint: delimitedIndent({ closing: ')', align: true }),
+                Constraint: delimitedIndent({ closing: ')', align: true }),
                 Range: delimitedIndent({ closing: ']', align: true })
             }),
             // todo this is not working
-            // foldNodeProp.add({
-            //   Query: foldInside,
-            //   HeadConstraint: foldInside,
-            //   FilterConstraint: foldInside,
-            // }),
+            foldNodeProp.add({
+                Query: foldInside,
+                RootConstraint: foldInside,
+                Constraint: foldInside,
+                Range: foldInside
+            }),
             styleTags({
                 String: t.string,
                 Int: t.integer,
@@ -53,8 +54,8 @@ export const evitaQLLanguage = LRLanguage.define({
                 Uuid: t.literal,
                 Enum: t.constant(t.variableName),
                 Query: t.function(t.variableName),
-                HeadConstraint: t.function(t.variableName),
-                FilterConstraint: t.function(t.variableName),
+                RootConstraint: t.function(t.variableName),
+                Constraint: t.function(t.variableName),
                 Comment: t.lineComment,
                 ',': t.separator,
                 '( )': t.paren,

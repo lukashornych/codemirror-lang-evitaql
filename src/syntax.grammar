@@ -2,7 +2,10 @@
 
 @skip { space | Comment }
 
-Query { "query" argsOpening Constraint (argsDelimiter Constraint)* argsClosing }
+Query { "query" argsOpening RootConstraint (argsDelimiter RootConstraint)* argsClosing }
+
+/* temporary separation of constraint types before we have full LSP completion/linter */
+RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") argsOpening (arg (argsDelimiter arg)*)? argsClosing }
 
 Constraint { constraintName argsOpening (arg (argsDelimiter arg)*)? argsClosing }
 
@@ -33,8 +36,6 @@ valueToken {
 @tokens {
     /* temporary list of supported constraint before we have full LSP completion/linter */
     constraintName {
-        "collection" |
-        "filterBy" |
         "filterGroupBy" |
         "and" |
         "or" |
@@ -75,7 +76,6 @@ valueToken {
         "excludingRoot" |
         "excluding" |
         "entityHaving" |
-        "orderBy" |
         "orderGroupBy" |
         "attributeNatural" |
         "attributeSetExact" |
@@ -88,7 +88,6 @@ valueToken {
         "entityPrimaryKeyInFilter" |
         "entityProperty" |
         "entityGroupProperty" |
-        "require" |
         "page" |
         "strip" |
         "entityFetch" |

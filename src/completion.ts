@@ -86,7 +86,7 @@ function createCompletion(label: string, info?: string): Completion {
         label,
         detail: '(...)',
         type: 'function',
-        info: info ? info : constraintDefinition['shortDescription'] + "\n\n" + constraintDefinition['userDocsLink'],
+        info: info ? info : constraintDefinition['shortDescription'] + "\n\n[Check detailed documentation](" + constraintDefinition['userDocsLink'] + ")",
         apply: (view, completion, from, to) => {
             view.dispatch({
                 changes: { from, to, insert: label + '()' },

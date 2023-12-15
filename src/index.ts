@@ -64,16 +64,15 @@ export const evitaQLLanguage = LRLanguage.define({
 
 function createCompletion(label: string, info?: string): Completion {
     return {
-        label,
-        detail: '(...)',
+        label/*: label + '(...)'*/,
         type: 'function',
-        info,
+        info/*,
         apply: (view, completion, from, to) => {
             view.dispatch({
                 changes: { from, to, insert: label + '()' },
                 selection: { anchor: from + label.length + 1 }
             })
-        }
+        }*/
     }
 }
 

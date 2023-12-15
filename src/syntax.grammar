@@ -6,7 +6,7 @@ Query { "query" QueryBody }
 
 QueryBody { ArgsOpening (RootConstraint (argsDelimiter RootConstraint)*) ArgsClosing }
 
-/* temporary separation of constraint types before we have full LSP completion/linter */
+/* todo temporary separation of constraint types before we have full LSP completion/linter */
 RootConstraint { ("collection" | "filterBy" | "orderBy" | "require") ConstraintBody }
 
 Constraint { constraintName ConstraintBody }
@@ -40,7 +40,7 @@ valueToken {
 }
 
 @tokens {
-    /* temporary list of supported constraint before we have full LSP completion/linter */
+    /* todo temporary list of supported constraint before we have full LSP completion/linter */
     constraintName {
         "filterGroupBy" |
         "and" |
@@ -140,6 +140,7 @@ valueToken {
 
     String {
         ('"' char* '"') |
+        /* todo not perfect, doesn't support " in between '' without escape character */
         ('\'' char* '\'')
     }
     char { $[\u{20}\u{21}\u{23}-\u{5b}\u{5d}-\u{10ffff}] | "\\" esc }

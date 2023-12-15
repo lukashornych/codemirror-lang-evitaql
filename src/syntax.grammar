@@ -136,7 +136,7 @@ valueToken {
 
     PositionalParameter { "?" }
 
-    NamedParameter { "@" @asciiLowercase [a-zA-Z0-9]*  }
+    NamedParameter { "@" @asciiLowercase $[a-zA-Z0-9]*  }
 
     String {
         ('"' (!["\\] | "\\" _)* '"') |
@@ -173,8 +173,6 @@ valueToken {
 
     @precedence {
         constraintName,
-        PositionalParameter,
-        NamedParameter,
         String,
         OffsetDateTime,
         DateTime,
@@ -184,7 +182,9 @@ valueToken {
         Int,
         Boolean,
         Uuid,
-        Enum
+        Enum,
+        NamedParameter,
+        PositionalParameter
     }
 }
 

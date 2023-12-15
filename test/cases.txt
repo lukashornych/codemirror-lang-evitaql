@@ -28,7 +28,9 @@ query(
             attributeEquals("code", [2023-12-14T10:10:10.123+01:00,2023-12-14T10:10:10.123+01:00]),
             attributeEquals("code", a8e93931-9603-432f-b25e-732995a3d461),
             attributeEquals("code", WITH_TAX),
-            attributeEquals("code", WITH)
+            attributeEquals("code", WITH),
+            attributeEquals("code", ?),
+            attributeEquals("code", @param)
         )
     ),
     require(
@@ -128,6 +130,12 @@ Request(
                             ),
                             Constraint(
                                 ConstraintBody(ArgsOpening, String, Enum, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, PositionalParameter, ArgsClosing)
+                            ),
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, NamedParameter, ArgsClosing)
                             ),
                             ArgsClosing
                         )

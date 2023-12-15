@@ -9,6 +9,8 @@ import { evitaQLLanguage } from './evitaql'
   - string escaping
  */
 
+export { evitaQLLanguage, evitaQLCompletion, evitaQLLinter }
+
 export function evitaQL() {
     return new LanguageSupport(
         evitaQLLanguage,

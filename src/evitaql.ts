@@ -8,7 +8,7 @@ export function evitaQLLanguage(config: EvitaQLConfig): LRLanguage {
     if (config.mode instanceof EvitaQLQueryMode) {
         top = 'QueryRequest'
     } else if (config.mode instanceof EvitaQLConstraintListMode) {
-        top = 'ConstraintRequest'
+        top = 'ConstraintListRequest'
     } else {
         throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
     }

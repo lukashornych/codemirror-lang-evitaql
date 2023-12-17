@@ -35,6 +35,7 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
             throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
         }
 
+        console.log(constraintKeys)
         return lang.data.of({
             autocomplete: completeFromList(constraintKeys.map(it => createCompletion(it)))
         })

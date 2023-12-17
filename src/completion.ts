@@ -1,17 +1,50 @@
 import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
-import { syntaxTree } from '@codemirror/language'
+import { LRLanguage, syntaxTree } from '@codemirror/language'
+import { Extension } from '@codemirror/state'
 import { SyntaxNode } from '@lezer/common'
 // @ts-ignore
 import constraints from './constraints.json'
-import { evitaQLLanguage } from './evitaql'
+import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
-export const evitaQLCompletion = evitaQLLanguage.data.of({
-    // autocomplete: getEvitaQLCompletions
-    autocomplete: completeFromList([
-        createCompletion('query', 'Query is the root construct for querying data.'),
-        ...Object.keys(constraints).map(it => createCompletion(it))
-    ])
-})
+export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Extension {
+    if (config.mode instanceof EvitaQLQueryMode) {
+        return lang.data.of({
+            autocomplete: completeFromList([
+                createCompletion('query', 'Query is the root construct for querying data.'),
+                ...Object.keys(constraints).map(it => createCompletion(it))
+            ])
+        })
+    } else if (config.mode instanceof EvitaQLConstraintListMode) {
+        let constraintKeys: string[]
+        if (config.mode.listType === ConstraintListType.Filter) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Filter && constraints[it] !== 'filterBy'
+            })
+        } else if (config.mode.listType === ConstraintListType.Order) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Order && constraints[it] !== 'orderBy'
+            })
+        } else if (config.mode.listType === ConstraintListType.Require) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Require && constraints[it] !== 'require'
+            })
+        } else {
+            throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
+        }
+
+        return lang.data.of({
+            autocomplete: completeFromList(constraintKeys.map(it => createCompletion(it)))
+        })
+    } else {
+        throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
+    }
+    // return lang.data.of({
+    //     // autocomplete: getEvitaQLCompletions
+    // })
+}
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {
     const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)

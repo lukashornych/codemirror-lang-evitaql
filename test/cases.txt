@@ -1,3 +1,18 @@
+# Constraints
+
+attributeEquals("code", "name"), attributeEquals("code", 'name')
+
+==>
+
+ConstraintListRequest(
+    Constraint(
+        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+    ),
+    Constraint(
+        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+    ),
+)
+
 # Queries
 
 query(
@@ -45,7 +60,7 @@ query(
 
 ==>
 
-Request(
+QueryRequest(
     Query(
         QueryBody(
             ArgsOpening,

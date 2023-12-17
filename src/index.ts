@@ -2,6 +2,7 @@ import { LanguageSupport } from '@codemirror/language'
 import { evitaQLCompletion } from './completion'
 import { evitaQLLinter } from './linter'
 import { evitaQLLanguage } from './evitaql'
+import { EvitaQLConfig, EvitaQLQueryMode } from './config'
 
 /*
   todo
@@ -11,9 +12,10 @@ import { evitaQLLanguage } from './evitaql'
 
 export { evitaQLLanguage, evitaQLCompletion, evitaQLLinter }
 
-export function evitaQL() {
+export function evitaQL(config: EvitaQLConfig = { mode: new EvitaQLQueryMode() }) {
+    const lang = evitaQLLanguage(config)
     return new LanguageSupport(
-        evitaQLLanguage,
-        [evitaQLCompletion, evitaQLLinter]
+        lang,
+        [evitaQLCompletion(lang, config), evitaQLLinter]
     )
 }

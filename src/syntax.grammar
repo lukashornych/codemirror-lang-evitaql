@@ -1,4 +1,6 @@
-@top Request { Query }
+@top QueryRequest { Query }
+
+@top ConstraintListRequest { Constraint (argsDelimiter Constraint)* }
 
 @skip { space | Comment }
 

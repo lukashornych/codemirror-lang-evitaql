@@ -126,6 +126,7 @@ valueToken {
         "stopAt" |
         "statistics" |
         "fromRoot" |
+        "fromNode" |
         "children" |
         "siblings" |
         "parents" |

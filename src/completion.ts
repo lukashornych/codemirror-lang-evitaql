@@ -7,47 +7,49 @@ import constraints from './constraints.json'
 import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
 export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Extension {
-    // if (config.mode instanceof EvitaQLQueryMode) {
-    //     return lang.data.of({
-    //         autocomplete: completeFromList([
-    //             createCompletion('query', 'Query is the root construct for querying data.'),
-    //             ...Object.keys(constraints).map(it => createCompletion(it))
-    //         ])
-    //     })
-    // } else if (config.mode instanceof EvitaQLConstraintListMode) {
-    //     let constraintKeys: string[]
-    //     if (config.mode.listType === ConstraintListType.Filter) {
-    //         constraintKeys = Object.keys(constraints).filter(it => {
-    //             const constraint = constraints[it]
-    //             return constraint.type === ConstraintListType.Filter && constraints[it] !== 'filterBy'
-    //         })
-    //     } else if (config.mode.listType === ConstraintListType.Order) {
-    //         constraintKeys = Object.keys(constraints).filter(it => {
-    //             const constraint = constraints[it]
-    //             return constraint.type === ConstraintListType.Order && constraints[it] !== 'orderBy'
-    //         })
-    //     } else if (config.mode.listType === ConstraintListType.Require) {
-    //         constraintKeys = Object.keys(constraints).filter(it => {
-    //             const constraint = constraints[it]
-    //             return constraint.type === ConstraintListType.Require && constraints[it] !== 'require'
-    //         })
-    //     } else {
-    //         throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
-    //     }
-    //
-    //     console.log(constraintKeys)
-    //     return lang.data.of({
-    //         autocomplete: completeFromList(constraintKeys.map(it => createCompletion(it)))
-    //     })
-    // } else {
-    //     throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
-    // }
-    return lang.data.of({
-        autocomplete: completeFromList([
+    if (config.mode instanceof EvitaQLQueryMode) {
+        let list = [
             createCompletion('query', 'Query is the root construct for querying data.'),
             ...Object.keys(constraints).map(it => createCompletion(it))
-        ])
-    })
+        ]
+        console.log(list)
+        return lang.data.of({
+            autocomplete: completeFromList(list)
+        })
+    } else if (config.mode instanceof EvitaQLConstraintListMode) {
+        let constraintKeys: string[]
+        if (config.mode.listType === ConstraintListType.Filter) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Filter && constraints[it] !== 'filterBy'
+            })
+        } else if (config.mode.listType === ConstraintListType.Order) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Order && constraints[it] !== 'orderBy'
+            })
+        } else if (config.mode.listType === ConstraintListType.Require) {
+            constraintKeys = Object.keys(constraints).filter(it => {
+                const constraint = constraints[it]
+                return constraint.type === ConstraintListType.Require && constraints[it] !== 'require'
+            })
+        } else {
+            throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
+        }
+
+        console.log(constraintKeys)
+        return lang.data.of({
+            autocomplete: completeFromList(constraintKeys.map(it => createCompletion(it)))
+        })
+    } else {
+        throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
+    }
+    // return lang.data.of({
+    //     autocomplete: completeFromList([
+    //         createCompletion('query', 'Query is the root construct for querying data.'),
+    //         ...Object.keys(constraints).map(it => createCompletion(it))
+    //     ])
+    // })
 }
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {

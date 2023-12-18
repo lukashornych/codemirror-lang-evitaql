@@ -13,12 +13,12 @@ import constraints from './constraints.json'
 import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
 export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Extension {
-    let completionList: CompletionSource
+    let completionList: Completion[]
     if (config.mode instanceof EvitaQLQueryMode) {
-        completionList = completeFromList([
+        completionList = [
             createCompletion('query', 'Query is the root construct for querying data.'),
             ...Object.keys(constraints).map(it => createCompletion(it))
-        ])
+        ]
     } else if (config.mode instanceof EvitaQLConstraintListMode) {
         let constraintKeys: string[]
         if (config.mode.listType === ConstraintListType.Filter) {
@@ -40,14 +40,14 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
             throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
         }
 
-        completionList = completeFromList(constraintKeys.map(it => createCompletion(it)))
+        completionList = constraintKeys.map(it => createCompletion(it))
     } else {
         throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
     }
 
     console.log(completionList)
     return lang.data.of({
-        autocomplete: completionList
+        autocomplete: completeFromList(completionList)
     })
 }
 

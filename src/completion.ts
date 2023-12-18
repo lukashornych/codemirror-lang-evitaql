@@ -24,6 +24,7 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
         if (config.mode.listType === ConstraintListType.Filter) {
             constraintKeys = Object.keys(constraints).filter(it => {
                 const constraint = constraints[it]
+                console.log(constraints[it], constraints[it] !== 'filterBy')
                 return constraint.type === ConstraintListType.Filter && constraints[it] !== 'filterBy'
             })
         } else if (config.mode.listType === ConstraintListType.Order) {
@@ -45,13 +46,8 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
         throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
     }
 
-    // console.log(completionList)
     return lang.data.of({
         autocomplete: completeFromList(completionList)
-        // autocomplete: completeFromList([
-        //     createCompletion('query', 'Query is the root construct for querying data.'),
-        //     ...Object.keys(constraints).map(it => createCompletion(it))
-        // ])
     })
 }
 

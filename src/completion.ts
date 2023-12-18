@@ -1,4 +1,10 @@
-import { completeFromList, Completion, CompletionContext, CompletionResult } from '@codemirror/autocomplete'
+import {
+    completeFromList,
+    Completion,
+    CompletionContext,
+    CompletionResult,
+    CompletionSource
+} from '@codemirror/autocomplete'
 import { LRLanguage, syntaxTree } from '@codemirror/language'
 import { Extension } from '@codemirror/state'
 import { SyntaxNode } from '@lezer/common'
@@ -7,15 +13,12 @@ import constraints from './constraints.json'
 import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
 export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Extension {
+    let completionList: CompletionSource
     if (config.mode instanceof EvitaQLQueryMode) {
-        let list = [
+        completionList = completeFromList([
             createCompletion('query', 'Query is the root construct for querying data.'),
             ...Object.keys(constraints).map(it => createCompletion(it))
-        ]
-        console.log(list)
-        return lang.data.of({
-            autocomplete: completeFromList(list)
-        })
+        ])
     } else if (config.mode instanceof EvitaQLConstraintListMode) {
         let constraintKeys: string[]
         if (config.mode.listType === ConstraintListType.Filter) {
@@ -37,19 +40,15 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
             throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)
         }
 
-        console.log(constraintKeys)
-        return lang.data.of({
-            autocomplete: completeFromList(constraintKeys.map(it => createCompletion(it)))
-        })
+        completionList = completeFromList(constraintKeys.map(it => createCompletion(it)))
     } else {
         throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
     }
-    // return lang.data.of({
-    //     autocomplete: completeFromList([
-    //         createCompletion('query', 'Query is the root construct for querying data.'),
-    //         ...Object.keys(constraints).map(it => createCompletion(it))
-    //     ])
-    // })
+
+    console.log(completionList)
+    return lang.data.of({
+        autocomplete: completionList
+    })
 }
 
 function getEvitaQLCompletions(context: CompletionContext): CompletionResult | null {

@@ -13,10 +13,10 @@ import constraints from './constraints.json'
 import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
 export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Extension {
-    let completionList: Completion[] = [
-        createCompletion('query', 'Query is the root construct for querying data.'),
-        ...Object.keys(constraints).map(it => createCompletion(it))
-    ]
+    // let completionList: Completion[] = [
+    //     createCompletion('query', 'Query is the root construct for querying data.'),
+    //     ...Object.keys(constraints).map(it => createCompletion(it))
+    // ]
     // if (config.mode instanceof EvitaQLQueryMode) {
     //     completionList = [
     //         createCompletion('query', 'Query is the root construct for querying data.'),
@@ -48,9 +48,13 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
     //     throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
     // }
 
-    console.log(completionList)
+    // console.log(completionList)
     return lang.data.of({
-        autocomplete: completeFromList(completionList)
+        // autocomplete: completeFromList(completionList)
+        autocomplete: completeFromList([
+            createCompletion('query', 'Query is the root construct for querying data.'),
+            ...Object.keys(constraints).map(it => createCompletion(it))
+        ])
     })
 }
 

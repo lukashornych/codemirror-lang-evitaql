@@ -1,9 +1,9 @@
 {
   "name": "@lukashornych/codemirror-lang-evitaql",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "evitaQL language support for CodeMirror",
   "scripts": {
-    "test": "mocha test/constraintListTest.js",
+    "test": "mocha test/*.js",
     "prepare": "rollup -c"
   },
   "keywords": [

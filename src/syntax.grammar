@@ -142,12 +142,12 @@ valueToken {
     NamedParameter { "@" @asciiLowercase $[a-zA-Z0-9]*  }
 
     String {
-        ('"' char* '"') |
-        /* todo not perfect, doesn't support " in between '' without escape character */
-        ('\'' char* '\'')
+        /* todo this probably doesn't support all needed escaping case with cross quotation marks, this will need more testing */
+        ('"' doubleQuotationChar* '"') |
+        ('\'' (![\'\\] | "\\" _)* '\'')
     }
-    char { $[\u{20}\u{21}\u{23}-\u{5b}\u{5d}-\u{10ffff}] | "\\" esc }
-    esc  { $["\\\/bfnrt] | "u" hex hex hex hex }
+    doubleQuotationChar { $[\u{20}\u{21}\u{23}-\u{5b}\u{5d}-\u{10ffff}] | "\\" doubleQuotationEsc }
+    doubleQuotationEsc  { $["\\\/bfnrt] | "u" hex hex hex hex }
     hex  { $[0-9a-fA-F] }
 
     Int { "-"? @digit+ }

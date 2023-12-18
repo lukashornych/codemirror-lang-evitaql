@@ -1,18 +1,3 @@
-# Constraints
-
-attributeEquals("code", "name"), attributeEquals("code", 'name')
-
-==>
-
-ConstraintListRequest(
-    Constraint(
-        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
-    ),
-    Constraint(
-        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
-    ),
-)
-
 # Queries
 
 query(
@@ -21,6 +6,7 @@ query(
         and(
             attributeEquals("code", "name"),
             attributeEquals("code", 'name'),
+            attributeEquals('code', 'name'),
             attributeEquals("code", 'name\"\t\n\b\r'),
             attributeEquals("code", "name\"\t\n\b\r"),
             attributeEquals("code", 10),
@@ -73,6 +59,9 @@ QueryRequest(
                     Constraint(
                         ConstraintBody(
                             ArgsOpening,
+                            Constraint(
+                                ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+                            ),
                             Constraint(
                                 ConstraintBody(ArgsOpening, String, String, ArgsClosing)
                             ),

@@ -26,7 +26,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "dependencies": {
-    "@codemirror/autocomplete": "^6.11.1",
+    "@codemirror/autocomplete": "^6.0.0",
     "@codemirror/language": "^6.0.0",
     "@codemirror/lint": "^6.4.2",
     "@lezer/highlight": "^1.0.0",

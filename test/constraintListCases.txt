@@ -1,0 +1,22 @@
+# Empty list
+
+
+
+==>
+
+ConstraintListRequest()
+
+# Constraints
+
+attributeEquals("code", "name"), attributeEquals("code", 'name')
+
+==>
+
+ConstraintListRequest(
+    Constraint(
+        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+    ),
+    Constraint(
+        ConstraintBody(ArgsOpening, String, String, ArgsClosing)
+    ),
+)

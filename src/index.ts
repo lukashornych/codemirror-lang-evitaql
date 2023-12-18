@@ -10,7 +10,7 @@ import { EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintL
   - string escaping
  */
 
-export { evitaQLLanguage, evitaQLCompletion, evitaQLLinter, EvitaQLConfig, EvitaQLConstraintListMode, ConstraintListType }
+export { evitaQLLanguage, evitaQLCompletion, evitaQLLinter, EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintListType }
 
 export function evitaQL(config: EvitaQLConfig = { mode: new EvitaQLQueryMode() }) {
     const lang = evitaQLLanguage(config)

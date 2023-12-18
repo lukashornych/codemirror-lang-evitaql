@@ -1,6 +1,6 @@
 @top QueryRequest { Query }
 
-@top ConstraintListRequest { Constraint (argsDelimiter Constraint)* }
+@top ConstraintListRequest { (Constraint (argsDelimiter Constraint)*)? }
 
 @skip { space | Comment }
 

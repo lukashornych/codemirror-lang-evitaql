@@ -34,7 +34,11 @@ export function evitaQLCompletion(lang: LRLanguage, config: EvitaQLConfig): Exte
         } else if (config.mode.listType === ConstraintListType.Require) {
             constraintKeys = Object.keys(constraints).filter(it => {
                 const constraint = constraints[it]
-                return constraint.type === ConstraintListType.Require && it !== 'require'
+                return (
+                    constraint.type === ConstraintListType.Require ||
+                    constraint.type === ConstraintListType.Filter || // additional filter
+                    constraint.type === ConstraintListType.Order // additional order
+                ) && it !== 'require'
             })
         } else {
             throw new Error(`Unsupported constraint list type '${config.mode.listType}'`)

@@ -44,6 +44,7 @@ valueToken {
 @tokens {
     /* todo temporary list of supported constraint before we have full LSP completion/linter */
     constraintName {
+        "filterBy" |
         "filterGroupBy" |
         "and" |
         "or" |
@@ -84,6 +85,7 @@ valueToken {
         "excludingRoot" |
         "excluding" |
         "entityHaving" |
+        "orderBy" |
         "orderGroupBy" |
         "attributeNatural" |
         "attributeSetExact" |

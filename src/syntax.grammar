@@ -91,13 +91,18 @@ valueToken {
         "attributeSetExact" |
         "attributeSetInFilter" |
         "priceNatural" |
+        "priceDiscount" |
         "random" |
+        "randomWithSeed" |
         "referenceProperty" |
         "entityPrimaryKeyNatural" |
         "entityPrimaryKeyExact" |
         "entityPrimaryKeyInFilter" |
         "entityProperty" |
         "entityGroupProperty" |
+        "segments" |
+        "segment" |
+        "limit" |
         "page" |
         "strip" |
         "entityFetch" |
@@ -136,7 +141,9 @@ valueToken {
         "parents" |
         "hierarchyOfSelf" |
         "hierarchyOfReference" |
-        "queryTelemetry"
+        "queryTelemetry" |
+        "spacing" |
+        "gap"
     }
 
     PositionalParameter { "?" }

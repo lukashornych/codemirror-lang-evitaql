@@ -1,16 +1,20 @@
 import { delimitedIndent, foldInside, foldNodeProp, indentNodeProp, LRLanguage } from '@codemirror/language'
 import { parser } from './syntax.grammar'
 import { styleTags, tags as t } from '@lezer/highlight'
-import { EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
-export function evitaQLLanguage(config: EvitaQLConfig): LRLanguage {
+enum LanguageMode {
+    Query = 'query',
+    ConstraintList = 'constraintList'
+}
+
+function defineEvitaQLLanguage(mode: LanguageMode): LRLanguage {
     let top: string
-    if (config.mode instanceof EvitaQLQueryMode) {
+    if (mode === LanguageMode.Query) {
         top = 'QueryRequest'
-    } else if (config.mode instanceof EvitaQLConstraintListMode) {
+    } else if (mode === LanguageMode.ConstraintList) {
         top = 'ConstraintListRequest'
     } else {
-        throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
+        throw new Error(`Unsupported mode '${mode}'`)
     }
 
     return LRLanguage.define({
@@ -50,3 +54,6 @@ export function evitaQLLanguage(config: EvitaQLConfig): LRLanguage {
         }
     })
 }
+
+export const evitaQLQueryLanguage: LRLanguage = defineEvitaQLLanguage(LanguageMode.Query)
+export const evitaQLConstraintListLanguage: LRLanguage = defineEvitaQLLanguage(LanguageMode.ConstraintList)

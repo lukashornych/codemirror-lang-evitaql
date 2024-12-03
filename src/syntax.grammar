@@ -49,6 +49,8 @@ valueToken {
         "and" |
         "or" |
         "not" |
+        "scope" |
+        "inScope" |
         "userFilter" |
         "attributeEquals" |
         "attributeGreaterThan" |

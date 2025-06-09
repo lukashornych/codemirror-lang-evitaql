@@ -1,8 +1,8 @@
-import { LanguageSupport } from '@codemirror/language'
+import { LanguageSupport, LRLanguage } from '@codemirror/language'
 import { evitaQLCompletion } from './completion'
 import { evitaQLLinter } from './linter'
-import { evitaQLLanguage } from './evitaql'
-import { EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintListType } from './config'
+import { evitaQLConstraintListLanguage, evitaQLQueryLanguage } from './evitaql'
+import { ConstraintListType, EvitaQLConfig, EvitaQLConstraintListMode, EvitaQLQueryMode } from './config'
 
 /*
   todo
@@ -10,12 +10,20 @@ import { EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintL
   - string escaping
  */
 
-export { evitaQLLanguage, evitaQLCompletion, evitaQLLinter, EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintListType }
+export { evitaQLQueryLanguage, evitaQLConstraintListLanguage, evitaQLCompletion, evitaQLLinter, EvitaQLConfig, EvitaQLQueryMode, EvitaQLConstraintListMode, ConstraintListType }
 
 export function evitaQL(config: EvitaQLConfig = { mode: new EvitaQLQueryMode() }) {
-    const lang = evitaQLLanguage(config)
+    let language: LRLanguage
+    if (config.mode instanceof EvitaQLQueryMode) {
+        language = evitaQLQueryLanguage
+    } else if (config.mode instanceof EvitaQLConstraintListMode) {
+        language = evitaQLConstraintListLanguage
+    } else {
+        throw new Error(`Unsupported mode '${config.mode?.toString()}'`)
+    }
+
     return new LanguageSupport(
-        lang,
-        [evitaQLCompletion(lang, config), evitaQLLinter]
+        language,
+        [evitaQLCompletion(language, config), evitaQLLinter]
     )
 }

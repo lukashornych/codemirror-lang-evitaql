@@ -42,7 +42,7 @@ valueToken {
 }
 
 @tokens {
-    constraintName {
+constraintName {
     "and" |
     "associatedDataContent" |
     "associatedDataContentAll" |
@@ -70,12 +70,19 @@ valueToken {
     "attributeSetInFilter" |
     "attributeStartsWith" |
     "children" |
+    "collection" |
     "dataInLocales" |
     "dataInLocalesAll" |
+    "debug" |
     "directRelation" |
     "distance" |
     "entityFetch" |
+    "entityFetchAll" |
+    "entityFetchAllAnd" |
+    "entityFetchAllContent" |
+    "entityFetchAllContentAnd" |
     "entityGroupFetch" |
+    "entityGroupFetchAll" |
     "entityGroupProperty" |
     "entityHaving" |
     "entityLocaleEquals" |
@@ -86,8 +93,10 @@ valueToken {
     "entityProperty" |
     "excluding" |
     "excludingRoot" |
+    "facetCalculationRules" |
     "facetGroupsConjunction" |
     "facetGroupsDisjunction" |
+    "facetGroupsExclusivity" |
     "facetGroupsNegation" |
     "facetHaving" |
     "facetSummary" |
@@ -98,6 +107,7 @@ valueToken {
     "fromRoot" |
     "gap" |
     "having" |
+    "head" |
     "hierarchyContent" |
     "hierarchyOfReference" |
     "hierarchyOfSelf" |
@@ -106,6 +116,14 @@ valueToken {
     "hierarchyWithinRootSelf" |
     "hierarchyWithinSelf" |
     "inScope" |
+    "includingChildren" |
+    "includingChildrenExcept" |
+    "includingChildrenHaving" |
+    "label" |
+    "lambda$entityPrimaryKeyInSet$2" |
+    "lambda$entityPrimaryKeyInSet$3" |
+    "lambda$priceInPriceLists$0" |
+    "lambda$priceInPriceLists$1" |
     "level" |
     "limit" |
     "node" |
@@ -115,6 +133,7 @@ valueToken {
     "orderGroupBy" |
     "page" |
     "parents" |
+    "pickFirstByEntityProperty" |
     "priceBetween" |
     "priceContent" |
     "priceContentAll" |
@@ -136,6 +155,7 @@ valueToken {
     "referenceContentWithAttributes" |
     "referenceHaving" |
     "referenceProperty" |
+    "require" |
     "scope" |
     "segment" |
     "segments" |
@@ -144,8 +164,10 @@ valueToken {
     "statistics" |
     "stopAt" |
     "strip" |
+    "traverseByEntityProperty" |
     "userFilter"
 }
+
 
     PositionalParameter { "?" }
 

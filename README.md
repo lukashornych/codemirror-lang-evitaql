@@ -15,7 +15,7 @@ yarn test
 
 ```shell
 yarn prepare
-yarn publish --access private
+yarn publish
 ```
 
 ### Adding new constraints

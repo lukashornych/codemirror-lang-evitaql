@@ -7,7 +7,7 @@ export default {
   external: id => id !== 'tslib' && !/^(\.?\/|\w:)/.test(id),
   output: [
     { file: 'dist/index.cjs', format: 'cjs' },
-    { dir: 'dist', format: 'es', preserveModules: true, entryFileNames: '[name].mjs' }
+    { file: 'dist/index.js', format: 'es' }
   ],
   plugins: [
     lezer(),

@@ -23,7 +23,7 @@ yarn publish
 The constraints support is constructed from the `src/constraints.json` (contains constraint definition and documentation)
 and from the `src/syntax.grammar` (actual constraints grammar for syntax highlighting and validating).
 
-Firstly, export constraint definition using [evitaDB's](https://github.com/FgForrest/evitaDB) `io.evitadb.documentation.JavaDocCopy#exportConstraintDefinitions` 
-special JUnit test. Replace the `src/constraints.json` with the generated JSON file.
+Firstly, export constraint definition using [evitaDB's](https://github.com/FgForrest/evitaDB) `io.evitadb.documentation.javadoc.ConstraintJavaDocExporter#main` 
+app. Replace the `src/constraints.json` with the generated JSON file.
 Then add all new constraints from [evitaDB's](https://github.com/FgForrest/evitaDB) `io.evitadb.api.query.QueryConstraints`
 into the `src/syntax.grammar` file.

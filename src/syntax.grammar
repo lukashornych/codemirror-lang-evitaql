@@ -127,6 +127,7 @@ constraintName {
     "hierarchyWithinRoot" |
     "hierarchyWithinRootSelf" |
     "hierarchyWithinSelf" |
+    "hierarchyHaving" |
     "inScope" |
     "includingChildren" |
     "includingChildrenExcept" |
